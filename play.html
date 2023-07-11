@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <title> Circular Progress Bar </title>
+        <style>
+.circular-progress{
+    position: relative;
+    height: 250px;
+    width: 250px;
+    border-radius: 70%;
+    background: conic-gradient(#003cff 3.6deg, #ededed 0deg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 15px;
+}
+.circular-progress::before{
+    content: "";
+    position: absolute;
+    height: 210px;
+    width: 210px;
+    border-radius: 50%;
+    background-color: #fff;
+   
+}
+.time-display{
+    position: relative;
+    font-size: 40px;
+    font-weight: 600;
+    color:#003cff ;
+}
+.button-container {
+      margin-top: 25px;
+    }
+#secc{
+  text-align:left;
+}
+#skipp{
+  text-align: center;
+  margin-left: 170px;
+}
+</style>
+                                       
+    </head>
+    <body>
+        <div class="container">
+            <div class="circular-progress">
+                <span class="time-display">00:30</span>
+            </div>
+        </div>
+        <div class="button-container">
+    <button id="secc" onclick="increaseTime()">+10 sec</button>
+    <button id="skipp" onclick="skipTime()">Skip</button>
+  </div>
+        <script>
+let circularProgress = document.querySelector(".circular-progress"),
+    timeDisplay = document.querySelector(".time-display");
+let progressStartValue = 100,    
+    progressEndValue = 0,    
+    speed = 293;
+   
+let progress = setInterval(() => {
+    progressStartValue--;
+    console.log(timeDisplay)
+    circularProgress.style.background = `conic-gradient(#003cff ${progressStartValue * 3.6}deg, #ededed 0deg)`
+     
+}, speed);
+var time = 30;
+
+    function decreaseTime() {
+      time--;
+      if(time<0)
+      {
+        time=0;
+      }
+      var minutes = Math.floor(time / 60);
+      var seconds = time % 60;
+      timeDisplay.innerHTML = ("0" + minutes).slice(-2) + ":" + ("0" + seconds).slice(-2);
+      var progress = (time / 30) * 100;
+      circularProgress.style.background = `conic-gradient(#003cff ${progressStartValue * 3.6}deg, #ededed 0deg)`
+      if (time >= 0) {
+        setTimeout(decreaseTime, 1000);
+      }
+    }
+
+    function increaseTime() {
+      time += 10;
+      var minutes = Math.floor(time / 60);
+      var seconds = time % 60;
+      progressStartValue+=33
+      if(progressStartValue>=100){
+        progressStartValue=100
+      }
+      timeDisplay.innerHTML = ("0" + minutes).slice(-2) + ":" + ("0" + seconds).slice(-2);
+      circularProgress.style.background = `conic-gradient(#003cff ${progressStartValue * 3.6}deg, #ededed 0deg)`
+    }
+
+    function skipTime() {
+      time = 0;
+      timeDisplay.innerHTML = "00:00";
+      progressStartValue=0
+      circularProgress.style.background = `conic-gradient(#003cff ${progressStartValue * 3.6}deg, #ededed 0deg)`
+    }
+
+    decreaseTime();
+    </script>
+    </body>
+</html>
